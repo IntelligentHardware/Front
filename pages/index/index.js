@@ -6,7 +6,7 @@ Page({
    */
   data: {
     swiperIndex: 1,
-    recipes:[],
+    // recipes:[],
     // bannerOne:{},
     // bannerTwo:[],
     urlImg: getApp().globalData.urlImg,
@@ -16,10 +16,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    that.setData({
-      recipes: [{ "id": "000", "name": "鱼肉" }, { "id": "001", "name": "鸡肉" }],
-      // bannerTwo:data.bannerTwo
-    })
+    
     // this.getRecipes()
 
     // var that = this
@@ -67,27 +64,33 @@ Page({
       swiperIndex: e.detail.current
     })
   },
-  
+  toDetailsTap: function (e) {
+    console.log("e.currentTarget.dataset.id")
+    console.log(e.currentTarget.dataset.id)
+    wx.navigateTo({
+      url: "/pages/goods-details/index?info=" + e.currentTarget.dataset.id
+    })
+  },
   //获取banner推荐
-  getRecipes:function(){
+  getItems:function(){
     const that = this
-    // console.log("success here")
+    // console.log("start getItems")
     wx.showLoading({
       title: '加载中',
     })
     wx.request({
-      url: getApp().globalData.url + '/api/getAllRecipes',
+      url: getApp().globalData.url + '/api/getAllItems',
       // url: getApp().globalData.url + '/api/getAllItems',
       method: 'GET',
       // header: { 'content-type': 'application/x-www-form-urlencoded' },
       success: function (res) {
         if (res.data.code == 200) {
           const data = res.data.data
-          // console.log("get a list of recipe")
+          // console.log(data)
           // console.log(data[0])
           // console.log(data)
           that.setData({
-            recipes: data.slice(10),
+            items: data,
             // bannerTwo:data.bannerTwo
           })
         } else {
@@ -107,6 +110,48 @@ Page({
     })
     
   },
+  // getRecipes: function () {
+  //   const that = this
+  //   // console.log("success here")
+  //   wx.showLoading({
+  //     title: '加载中',
+  //   })
+  //   wx.request({
+  //     url: getApp().globalData.url + '/api/saveNewItems',
+  //     // url: getApp().globalData.url + '/api/getAllItems',
+  //     method: 'POST',
+  //     data: {
+  //       name: "糖果",
+  //       chapterId: that.data.chapterid
+  //     },
+  //     // header: { 'content-type': 'application/x-www-form-urlencoded' },
+  //     success: function (res) {
+  //       if (res.data.code == 200) {
+  //         const data = res.data.data
+  //         // console.log("get a list of recipe")
+  //         // console.log(data[0])
+  //         // console.log(data)
+  //         that.setData({
+  //           recipes: data.slice(10),
+  //           // bannerTwo:data.bannerTwo
+  //         })
+  //       } else {
+  //         wx.showToast({
+  //           title: '请求失败，请稍后重试',
+  //           icon: 'none',
+  //           duration: 2000
+  //         })
+  //       }
+  //     },
+  //     fail: function (e) {
+  //       console.log('网络出错');
+  //     },
+  //     complete: function () {
+  //       wx.hideLoading()
+  //     }
+  //   })
+
+  // },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
@@ -119,7 +164,15 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    const that = this
+    that.getItems();
+    // const that = this
+    // that.setData({
+    //   recipes: [{ "id": "000", "name": "鱼肉" }, { "id": "001", "name": "鸡肉" }],
+    //   // bannerTwo:data.bannerTwo
+    // })
+    // console.log(data.recipes)
+    
   },
 
   /**
@@ -155,20 +208,20 @@ Page({
    */
   onShareAppMessage: function () {
 
-  },
-
-
-  //跳转到书籍简介
-  toBook:function(e){
-    const id = e.currentTarget.dataset.id
-    wx.navigateTo({
-      url: '../../pages/bookAbstract/bookAbstract?id='+id,
-    })
-  },
-  //跳转到免费书籍列表页
-  toFreeBooks:function(){
-    wx.navigateTo({
-      url: '../../pages/freeBooks/freeBooks',
-    })
   }
+
+
+  // //跳转到书籍简介
+  // toBook:function(e){
+  //   const id = e.currentTarget.dataset.id
+  //   wx.navigateTo({
+  //     url: '../../pages/bookAbstract/bookAbstract?id='+id,
+  //   })
+  // },
+  // //跳转到免费书籍列表页
+  // toFreeBooks:function(){
+  //   wx.navigateTo({
+  //     url: '../../pages/freeBooks/freeBooks',
+  //   })
+  // }
 })

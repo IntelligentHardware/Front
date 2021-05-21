@@ -6,7 +6,8 @@
     "pages/bookCity/bookCity",
     "pages/bookAbstract/bookAbstract",
     "pages/chapterDetail/chapterDetail",
-    "pages/freeBooks/freeBooks"
+    "pages/freeBooks/freeBooks",
+    "pages/goods-details/index"
   ],
   "window": {
     "navigationBarBackgroundColor": "#fff",
